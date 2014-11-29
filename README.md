@@ -1,4 +1,4 @@
 WordBase
 ========
 
-WordBase Hack
+WordBase Cheat :)
