@@ -7,8 +7,7 @@ import java.io.*;
 public class Dictionary{
 	
 	protected static final ArrayList<String> wordList = new ArrayList<String>();
-	
-	public Dictionary(){}
+	public static ArrayList<String> subWordList = new ArrayList<String>();
 	
 	public Dictionary(String fileName) throws IOException {
 		
@@ -20,15 +19,24 @@ public class Dictionary{
 		while((Line = input.readLine())!=null){
 			wordList.add(Line);
 		}
+		subWordList = (ArrayList<String>) wordList.clone();
+	}
+	
+	public static void subDictinonary(String start){
+		subWordList.clear();
+		for(String word: wordList){
+			if(word.startsWith(start.toLowerCase()))
+				subWordList.add(word);
+		}
 	}
 	
 	public static boolean isWord(String word){
-		return wordList.contains(word.toLowerCase());
+		return subWordList.contains(word.toLowerCase());
 	}
 	
 	public static boolean wordStart(String start){
 		
-		for(String word: wordList){
+		for(String word: subWordList){
 			if(word.startsWith(start.toLowerCase()))
 				return true;
 		}

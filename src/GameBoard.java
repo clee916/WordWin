@@ -76,7 +76,9 @@ public final class GameBoard{
 		
 			used.add(charPoint.getPoint());
 			current = charPoint.getChar();
-			
+			//makes dictionary smaller!
+			Dictionary.subDictinonary(current);
+		
 			for(CharPoint neighbor: charPoint.getNeighBors()){
 				analyzeNeighbors(charPoint,current,used);
 			}
