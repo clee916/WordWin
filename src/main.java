@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class main{
 	public static void main(String args[]) throws IOException {
 		
@@ -14,9 +13,10 @@ public class main{
 		
 		GameBoard gameBoard = null;
 		
-		System.out.println("Enter the file name where the board is stored");
+		System.out.println("Enter the file name where the board is stored without extension");
 		Scanner boardScanner = new Scanner(System.in);
 		String fileName = boardScanner.nextLine()+".txt";
+		
 		String userBoard = readFile(fileName);
 		
 		gameBoard = new GameBoard(userBoard);
@@ -38,13 +38,13 @@ public class main{
 			Scanner scan2 = new Scanner(System.in);
 			Scanner scan3 = new Scanner(System.in);
 			
-			System.out.println("Enter row of position");
-			int row = scan2.nextInt();
+			System.out.println("Enter column of position(x-value)");
+			int column = scan2.nextInt();
 			
-			System.out.println("Enter column of position");
-			int column = scan3.nextInt();
+			System.out.println("Enter row of position(y-value)");
+			int row = scan3.nextInt();
 			
-			subWords = subWords(subWords,column,row);
+			subWords = subWords(subWords,row,column);
 			
 			GameBoard.analyzeWordsLength(subWords);
 			GameBoard.analyzeWordsReach(subWords);
@@ -55,7 +55,7 @@ public class main{
 			cont = scan.nextInt();	
 		}
 		
-		System.out.println("\nMove made!");
+		System.out.println("\nGG!");
 	}
 	
 		public final static List<Path> subWords(List<Path> moreWords, int row, int column){
