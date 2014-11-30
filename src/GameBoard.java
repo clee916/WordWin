@@ -9,8 +9,9 @@ import java.util.List;
 public final class GameBoard{
 	
 	private String identifier = null;
-	public ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
+	private ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
 	private ArrayList<CharPoint> ownedChar = new ArrayList<CharPoint>();
+	private boolean bottomBase = true;
 	public static ArrayList<Path> possibleWords = new ArrayList<Path>();
 	
 	public GameBoard(){}
@@ -47,6 +48,8 @@ public final class GameBoard{
 			}
 			i--;
 		}
+		if(this.ownedChar.get(0).getPoint().equals(new Point(12,0)))
+			this.bottomBase = false;
 	}
 	
 	public ArrayList<CharPoint> getBoard(){
@@ -55,6 +58,10 @@ public final class GameBoard{
 	
 	public String getIdentifer(){
 		return this.identifier;
+	}
+	
+	public boolean isBottom(){
+		return this.bottomBase;
 	}
 	
 	public static CharPoint getCharPoint(int i, int j, ArrayList<CharPoint> gameBoard){
@@ -124,7 +131,7 @@ public final class GameBoard{
 		}
 	}
 		
-	public void printWord(ArrayList<Path> subWords, int start, int maxSize, Comparator comp){	
+	public void printWord(ArrayList<Path> subWords, int start, int maxSize, Comparator<Path> comp){	
 		System.out.println("\nYour "+comp.toString()+" Words");
 		Collections.sort(subWords, comp);
 		
@@ -143,13 +150,16 @@ public final class GameBoard{
 	}
 	
 	public void printWords(ArrayList<Path> subWords, int start, int maxSize){
-		Comparator length = new LengthComparator();
-		Comparator height = new ReachComparator();
-		Comparator depth = new ReachComparatorMin();
+		Comparator<Path> length = new LengthComparator();
+		Comparator<Path> height = new ReachComparator();
+		Comparator<Path> depth = new ReachComparatorMin();
 		
 		printWord(subWords, start, maxSize, length);
-		printWord(subWords, start, maxSize, height);
-		printWord(subWords, start, maxSize, depth);
+		
+		if(bottomBase)
+			printWord(subWords, start, maxSize, height);
+		else
+			printWord(subWords, start, maxSize, depth);
 	}
 
 	public final String readFile(String fileName) throws IOException {
@@ -178,7 +188,10 @@ public final class GameBoard{
 		
 		return toReturn;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -188,6 +201,9 @@ public final class GameBoard{
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
