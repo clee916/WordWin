@@ -6,7 +6,7 @@ import java.io.*;
 
 public class Dictionary{
 	
-	protected static final ArrayList<String> wordList = new ArrayList<String>();
+	public static final ArrayList<String> wordList = new ArrayList<String>();
 	public static ArrayList<String> subWordList = new ArrayList<String>();
 	
 	public Dictionary(String fileName) throws IOException {

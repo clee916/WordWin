@@ -8,12 +8,14 @@ import java.util.List;
 
 public final class GameBoard{
 	
-	public static final List<CharPoint> gameBoard = new ArrayList<CharPoint>();
-	public static final List<CharPoint> ownedChar = new ArrayList<CharPoint>();
-	public static List<Path> possibleWords = new ArrayList<Path>();
+	private String identifier = null;
+	public static final ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
+	public static final ArrayList<CharPoint> ownedChar = new ArrayList<CharPoint>();
+	public static ArrayList<Path> possibleWords = new ArrayList<Path>();
 	
 	public GameBoard(String fileName) throws IOException{
 		
+		identifier = fileName.replaceFirst(".txt", "");
 		String boardChar = readFile(fileName);
 		
 		char[] charArray = boardChar.toCharArray();
@@ -40,6 +42,10 @@ public final class GameBoard{
 		}
 	}
 	
+	public String getIdentifer(){
+		return this.identifier;
+	}
+	
 	public static CharPoint getCharPoint(int i, int j){
 		Point toFind = new Point(i,j);
 		
@@ -61,7 +67,7 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void analyzeGameBoard(){
+	public static void analyzeGameBoard(GameBoard board){
 		String current = null;
 		possibleWords.clear();
 		
@@ -107,7 +113,7 @@ public final class GameBoard{
 		}
 	}
 		
-	public static void printWord(List<Path> subWords, int start, int maxSize, Comparator comp){	
+	public static void printWord(ArrayList<Path> subWords, int start, int maxSize, Comparator comp){	
 		System.out.println("\nYour "+comp.toString()+" Words");
 		Collections.sort(subWords, comp);
 		
@@ -125,7 +131,7 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void printWords(List<Path> subWords, int start, int maxSize){
+	public static void printWords(ArrayList<Path> subWords, int start, int maxSize){
 		Comparator length = new LengthComparator();
 		Comparator height = new ReachComparator();
 		Comparator depth = new ReachComparatorMin();
@@ -148,17 +154,43 @@ public final class GameBoard{
 		}
 		
 		input.close();
-		return toReturn;
+		return toReturn.replaceAll("\\s", "");
 	}
 	
-	public final static List<Path> subWords(List<Path> moreWords, int row, int column){
+	public final static ArrayList<Path> subWords(ArrayList<Path> moreWords, int row, int column){
 		
-		List<Path> toReturn = new ArrayList<Path>();
+		ArrayList<Path> toReturn = new ArrayList<Path>();
 		
 		for(Path path: moreWords)
 			if(path.getPath().contains(new Point(row,column)))
 				toReturn.add(path);
 		
 		return toReturn;
-}
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((identifier == null) ? 0 : identifier.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GameBoard other = (GameBoard) obj;
+		if (identifier == null) {
+			if (other.identifier != null)
+				return false;
+		} else if (!identifier.equals(other.identifier))
+			return false;
+		return true;
+	}
 }
