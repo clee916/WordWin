@@ -18,6 +18,12 @@ public final class GameBoard{
 		identifier = fileName.replaceFirst(".txt", "");
 		String boardChar = readFile(fileName);
 		
+		if(boardChar.length()!=130){
+			System.out.println(boardChar.length());
+			System.out.println("Board is not formatter correctly for a WordBase game");
+			throw new IOException();
+		}
+		
 		char[] charArray = boardChar.toCharArray();
 		
 		int i = 12;
@@ -57,9 +63,9 @@ public final class GameBoard{
 		return test;
 	}
 	
-	public static void printGameBoard(){
+	public static void printGameBoard(GameBoard gameBoard2){
 		for (int i = 12; i >=0; i--){
-			for (int j = 9; j >= 0; j--){
+			for (int j = 0; j < 10; j++){
 				System.out.print(getCharPoint(i,j).getChar());			
 				System.out.print("\t");
 			}

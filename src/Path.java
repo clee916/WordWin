@@ -47,6 +47,20 @@ public final class Path{
 		return min;
 	}
 	
+	public void showOnBoard(){
+		for (int i = 12; i >=0; i--){
+			for (int j = 0; j < 10; j++){
+				
+				if(path.contains(new Point(i,j)))
+					System.out.print(GameBoard.getCharPoint(i,j).getChar());
+				else
+					System.out.print("*");
+				System.out.print("\t");
+			}
+			System.out.print("\n");
+		}
+	}
+	
 	@Override
 	public String toString(){
 		String toReturn = word;
