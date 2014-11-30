@@ -7,7 +7,7 @@ public class LengthComparator implements java.util.Comparator<Path> {
         if(p2.getWord().length() > p1.getWord().length())
             return 1;
 
-        return 0;
+        return p1.getWord().compareTo(p2.getWord());
     }
     
     @Override

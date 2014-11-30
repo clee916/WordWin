@@ -8,7 +8,7 @@ public class ReachComparator implements java.util.Comparator<Path> {
         if(p2.getMaxRow() > p1.getMaxRow())
             return 1;
 
-        return 0;
+        return p1.getWord().compareTo(p2.getWord());
     }
     
     @Override
