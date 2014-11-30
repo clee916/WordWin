@@ -19,6 +19,7 @@ public class Dictionary{
 		while((Line = input.readLine())!=null)
 			wordList.add(Line);
 		
+		input.close();
 		subWordList = (ArrayList<String>) wordList.clone();
 	}
 	

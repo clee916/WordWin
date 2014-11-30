@@ -9,4 +9,9 @@ public class LengthComparator implements java.util.Comparator<Path> {
 
         return 0;
     }
+    
+    @Override
+    public String toString(){
+    	return "longest";
+    }
 }

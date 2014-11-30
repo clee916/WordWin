@@ -1,5 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public final class GameBoard{
@@ -8,7 +12,10 @@ public final class GameBoard{
 	public static final List<CharPoint> ownedChar = new ArrayList<CharPoint>();
 	public static List<Path> possibleWords = new ArrayList<Path>();
 	
-	public GameBoard(String boardChar){
+	public GameBoard(String fileName) throws IOException{
+		
+		String boardChar = readFile(fileName);
+		
 		char[] charArray = boardChar.toCharArray();
 		
 		int i = 12;
@@ -100,15 +107,15 @@ public final class GameBoard{
 		}
 	}
 		
-	public static void analyzeWordsLength(List<Path> possibleWords2, int start, int maxSize){	
-		System.out.println("\nYour Longest Words....");
-		Collections.sort(possibleWords2, new LengthComparator());
+	public static void printWord(List<Path> subWords, int start, int maxSize, Comparator comp){	
+		System.out.println("\nYour "+comp.toString()+" Words");
+		Collections.sort(subWords, comp);
 		
-		if(possibleWords2.size()<maxSize)
-			maxSize = possibleWords2.size();
+		if(subWords.size()<maxSize)
+			maxSize = subWords.size();
 		
 		for (int index = start; index < maxSize ; index++){
-			Path path = possibleWords2.get(index);
+			Path path = subWords.get(index);
 			System.out.print(path.getWord());
 			
 			for(Point point: path.getPath())
@@ -118,39 +125,40 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void analyzeWordsReach(List<Path> possibleWords2, int start, int maxSize){
-		System.out.println("\nYour Tallest Reach...");
-		Collections.sort(possibleWords2, new ReachComparator());
+	public static void printWords(List<Path> subWords, int start, int maxSize){
+		Comparator length = new LengthComparator();
+		Comparator height = new ReachComparator();
+		Comparator depth = new ReachComparatorMin();
 		
-		if(possibleWords2.size()<maxSize)
-			maxSize = possibleWords2.size();
+		printWord(subWords, start, maxSize, length);
+		printWord(subWords, start, maxSize, height);
+		printWord(subWords, start, maxSize, depth);
+	}
+
+	public final String readFile(String fileName) throws IOException {
 		
-		for (int index = start; index < maxSize; index++){
-			Path path = possibleWords2.get(index);
-			System.out.print(path.getWord());
-			
-			for(Point point: path.getPath())
-				System.out.print(point.toString());
-			
-			System.out.println();
+		FileReader inputFile = new FileReader(fileName);
+		BufferedReader input = new BufferedReader(inputFile);
+		
+		String toReturn = "";
+		String Line;
+		
+		while((Line = input.readLine())!=null){
+			toReturn = toReturn.concat(Line);
 		}
+		
+		input.close();
+		return toReturn;
 	}
 	
-	public static void analyzeWordsReachMin(List<Path> possibleWords2, int start, int maxSize){
-		System.out.println("\nYour Lowest Reach...");
-		Collections.sort(possibleWords2, new ReachComparatorMin());
+	public final static List<Path> subWords(List<Path> moreWords, int row, int column){
 		
-		if(possibleWords2.size()<maxSize)
-			maxSize = possibleWords2.size();
+		List<Path> toReturn = new ArrayList<Path>();
 		
-		for (int index = start; index < maxSize ; index++){
-			Path path = possibleWords2.get(index);
-			System.out.print(path.getWord());
-			
-			for(Point point: path.getPath())
-				System.out.print(point.toString());
-			
-			System.out.println();
-		}
-	}
+		for(Path path: moreWords)
+			if(path.getPath().contains(new Point(row,column)))
+				toReturn.add(path);
+		
+		return toReturn;
+}
 }

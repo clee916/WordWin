@@ -5,12 +5,7 @@ public final class Path{
 	
 	private String word;
 	private ArrayList<Point> path = new ArrayList<Point>();
-	
-	public Path (String word, Point start){
-		this.word = word;
-		this.path.add(start);
-	}
-	
+
 	public Path (String word, ArrayList<Point> path){
 		this.word = word;
 		this.path = path;
