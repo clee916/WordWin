@@ -89,21 +89,25 @@ public final class GameBoard{
 		String current = null;
 		possibleWords.clear();
 		
+				
 		for(CharPoint charPoint: ownedChar){
+			
+			Dictionary test = new Dictionary(charPoint.getChar(), Dictionary.wordList);
 			
 			ArrayList<Point> used = new ArrayList<Point>();
 			used.add(charPoint.getPoint());
 			current = charPoint.getChar();
 		
 			for(CharPoint neighbor: charPoint.getNeighBors()){	
-				Dictionary.subDictionary(current.concat(neighbor.getChar()));
-				analyzeNeighbors(charPoint,current,used);
+				//Dictionary.subDictionary(current.concat(neighbor.getChar()));
+				Dictionary test2 = new Dictionary(current.concat(neighbor.getChar()),test.getWordList());
+				analyzeNeighbors(charPoint,current,used,test2);
 			}
 		}
 	}
 	
 	public void analyzeNeighbors(CharPoint start, String current, 
-			ArrayList<Point> used){
+			ArrayList<Point> used, Dictionary test2){
 		
 		for(CharPoint neighbor: start.getNeighBors()){
 			ArrayList<Point> usedClone = (ArrayList<Point>) used.clone();
@@ -115,7 +119,7 @@ public final class GameBoard{
 			
 			String currentPlus = current.concat(neighbor.getChar());
 			
-			if(!(Dictionary.wordStart(currentPlus)))
+			if(!(test2.wordStart(currentPlus,test2.getWordList())))
 				cont = false;
 			
 			if(cont){
@@ -123,10 +127,11 @@ public final class GameBoard{
 				usedClone.add(neighbor.getPoint());
 				path.replaceWord(currentPlus);
 				
-				if(Dictionary.isWord(path.getWord())&&!(possibleWords.contains(path)))
+				if(test2.isWord(path.getWord(),test2.getWordList())&&!(possibleWords.contains(path)))
 					possibleWords.add(path);
 				
-				analyzeNeighbors(neighbor,currentPlus,usedClone);
+				Dictionary test3 = new Dictionary(currentPlus,test2.getWordList());
+				analyzeNeighbors(neighbor,currentPlus,usedClone,test3);
 			}
 		}
 	}
