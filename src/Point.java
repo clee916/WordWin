@@ -28,7 +28,6 @@ public final class Point{
 			return false;
 
 		Point other = (Point) obj;
-		
 		if (row == other.getRow() && column == other.getCol())
 			return true;
 		

@@ -33,7 +33,6 @@ public final class Path{
 	}
 
 	public int getMaxRow(){
-		
 		int max = 0;
 		
 		for(Point point: path){
@@ -44,7 +43,6 @@ public final class Path{
 	}
 	
 	public int getMinRow(){
-		
 		int min = 12;
 		
 		for(Point point: path){
@@ -61,7 +59,6 @@ public final class Path{
 		for(int index = 0; index < path.size();index++){
 			toReturn = toReturn.concat(path.get(index).toString());
 		}
-		
 		return toReturn;
 	}
 	
@@ -80,7 +77,6 @@ public final class Path{
 			return false;
 
 		Path other = (Path) obj;
-		
 		if (word.equals(other.getWord()) && path.equals(other.getPath()))
 			return true;
 		

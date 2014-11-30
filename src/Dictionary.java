@@ -16,18 +16,19 @@ public class Dictionary{
 		
 		String Line;
 		
-		while((Line = input.readLine())!=null){
+		while((Line = input.readLine())!=null)
 			wordList.add(Line);
-		}
+		
 		subWordList = (ArrayList<String>) wordList.clone();
 	}
 	
 	public static void subDictinonary(String start){
 		subWordList.clear();
-		for(String word: wordList){
+		
+		for(String word: wordList)
 			if(word.startsWith(start.toLowerCase()))
 				subWordList.add(word);
-		}
+		
 	}
 	
 	public static boolean isWord(String word){
@@ -40,21 +41,6 @@ public class Dictionary{
 			if(word.startsWith(start.toLowerCase()))
 				return true;
 		}
-		
 		return false;
 	}
-	
-	
-	
-	public static List<String> wordList(String start){
-		List<String> toReturn = new ArrayList<String>();
-		
-		for(String word: wordList){
-			if(word.startsWith(start))
-				toReturn.add(word);
-		}
-		
-		return toReturn;
-	}
-	
 }

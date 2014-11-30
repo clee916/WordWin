@@ -45,10 +45,5 @@ public final class CharPoint{
 			neighbors.add(GameBoard.getCharPoint(i, j-1));
 		
 		return neighbors;
-
-	}
-	
-	
-	
-	
+	}	
 }

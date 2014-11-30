@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/*
+/**
  * Author: Cornell Lee
  * 
  * Generates potential playable words for user in MobileApp: WordBase
@@ -45,16 +45,18 @@ public class main{
 		while(cont == 1 || cont == 2 || cont == 3){
 			if(cont == 2){
 				subWords = GameBoard.possibleWords;
-				GameBoard.analyzeWordsLength(subWords, 0,5);
-				GameBoard.analyzeWordsReach(subWords,0,5);
-				GameBoard.analyzeWordsReachMin(subWords,0,5);	
+				defStart = 0;
+				defSize = 5;
+				GameBoard.analyzeWordsLength(subWords, defStart,defSize);
+				GameBoard.analyzeWordsReach(subWords,defStart,defSize);
+				GameBoard.analyzeWordsReachMin(subWords,defStart,defSize);	
 				System.out.println("\nPress 1 to search for a specific point, 3 to show more words");
 				cont = scan.nextInt();
 			}
 			else{
 				if(cont == 3){
-					defStart = defStart+5;
-					defSize = defSize+5;
+					defStart +=5;
+					defSize +=5;
 					GameBoard.analyzeWordsLength(subWords, defStart,defSize);
 					GameBoard.analyzeWordsReach(subWords,defStart,defSize);
 					GameBoard.analyzeWordsReachMin(subWords,defStart,defSize);	
