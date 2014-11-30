@@ -9,13 +9,14 @@ import java.util.List;
 public final class GameBoard{
 	
 	private String identifier = null;
-	public static final ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
-	public static final ArrayList<CharPoint> ownedChar = new ArrayList<CharPoint>();
+	public ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
+	private ArrayList<CharPoint> ownedChar = new ArrayList<CharPoint>();
 	public static ArrayList<Path> possibleWords = new ArrayList<Path>();
 	
+	public GameBoard(){}
+	
 	public GameBoard(String fileName) throws IOException{
-		
-		identifier = fileName.replaceFirst(".txt", "");
+		this.identifier = fileName.replaceFirst(".txt", "");
 		String boardChar = readFile(fileName);
 		
 		if(boardChar.length()!=130){
@@ -35,11 +36,11 @@ public final class GameBoard{
 			while(j<10){
 				char character = charArray[k];
 				Point point = new Point(i,j);
-				CharPoint charPoint = new CharPoint(point,Character.toString(character));
-				gameBoard.add(charPoint);
+				CharPoint charPoint = new CharPoint(point,Character.toString(character),this);
+				this.gameBoard.add(charPoint);
 				
-				if(charPoint.getBool())
-					ownedChar.add(charPoint);
+				if(Character.isUpperCase(character))
+					this.ownedChar.add(charPoint);
 		
 				j++;
 				k++;		
@@ -48,11 +49,15 @@ public final class GameBoard{
 		}
 	}
 	
+	public ArrayList<CharPoint> getBoard(){
+		return this.gameBoard;
+	}
+	
 	public String getIdentifer(){
 		return this.identifier;
 	}
 	
-	public static CharPoint getCharPoint(int i, int j){
+	public static CharPoint getCharPoint(int i, int j, ArrayList<CharPoint> gameBoard){
 		Point toFind = new Point(i,j);
 		
 		for(CharPoint charPoint: gameBoard)
@@ -63,17 +68,17 @@ public final class GameBoard{
 		return test;
 	}
 	
-	public static void printGameBoard(GameBoard gameBoard2){
+	public void printGameBoard(ArrayList<CharPoint> gameBoard){
 		for (int i = 12; i >=0; i--){
 			for (int j = 0; j < 10; j++){
-				System.out.print(getCharPoint(i,j).getChar());			
+				System.out.print(getCharPoint(i,j,gameBoard).getChar());			
 				System.out.print("\t");
 			}
 			System.out.print("\n");
 		}
 	}
 	
-	public static void analyzeGameBoard(GameBoard board){
+	public void analyzeGameBoard(){
 		String current = null;
 		possibleWords.clear();
 		
@@ -90,12 +95,12 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void analyzeNeighbors(CharPoint start, String current, 
+	public void analyzeNeighbors(CharPoint start, String current, 
 			ArrayList<Point> used){
 		
 		for(CharPoint neighbor: start.getNeighBors()){
 			ArrayList<Point> usedClone = (ArrayList<Point>) used.clone();
-			Path path = new Path(current, usedClone);
+			Path path = new Path(current,usedClone,gameBoard);
 			boolean cont = true;
 		
 			if(usedClone.contains(neighbor.getPoint()))
@@ -119,7 +124,7 @@ public final class GameBoard{
 		}
 	}
 		
-	public static void printWord(ArrayList<Path> subWords, int start, int maxSize, Comparator comp){	
+	public void printWord(ArrayList<Path> subWords, int start, int maxSize, Comparator comp){	
 		System.out.println("\nYour "+comp.toString()+" Words");
 		Collections.sort(subWords, comp);
 		
@@ -137,7 +142,7 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void printWords(ArrayList<Path> subWords, int start, int maxSize){
+	public void printWords(ArrayList<Path> subWords, int start, int maxSize){
 		Comparator length = new LengthComparator();
 		Comparator height = new ReachComparator();
 		Comparator depth = new ReachComparatorMin();

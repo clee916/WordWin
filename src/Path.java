@@ -5,10 +5,12 @@ public final class Path{
 	
 	private String word;
 	private ArrayList<Point> path = new ArrayList<Point>();
+	private ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
 
-	public Path (String word, ArrayList<Point> path){
+	public Path (String word, ArrayList<Point> path, ArrayList<CharPoint> gameBoard){
 		this.word = word;
 		this.path = path;
+		this.gameBoard = gameBoard;
 	}
 	
 	public String getWord(){
@@ -52,7 +54,7 @@ public final class Path{
 			for (int j = 0; j < 10; j++){
 				
 				if(path.contains(new Point(i,j)))
-					System.out.print(GameBoard.getCharPoint(i,j).getChar());
+					System.out.print(GameBoard.getCharPoint(i,j,gameBoard).getChar());
 				else
 					System.out.print("*");
 				System.out.print("\t");

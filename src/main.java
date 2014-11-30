@@ -56,33 +56,27 @@ public class main{
 			
 			if(options.equals("view")){
 				
+				System.out.println();
 				boolean print = true;
-		
-				for(GameBoard board: loadedGames)
-					System.out.println(board.getIdentifer());
 				
 				if(loadedGames.isEmpty())
 					System.out.println("You have no loaded boards!\n");
 				else{
-					System.out.println("Press 1 to print a gameboard");
-					if(!getUserResponse().equals("1"))
-						print = false;
-					
 					while(print){
 					
-						System.out.println("Enter name of board to print");
-						String gameBoard = getUserResponse();
-						GameBoard chosenBoard = null;
-						
-						for(GameBoard board: loadedGames){
-							if(board.getIdentifer().equals(gameBoard))
-								chosenBoard = board;
-						}
-						if(chosenBoard == null){
-							System.out.println("This board has not been loaded");
+						for(GameBoard board: loadedGames)
+							System.out.print(board.getIdentifer()+"\t");
+						System.out.println("\nEnter number to print board (left is 0)");
+						int toPrint = Integer.parseInt(getUserResponse());
+								
+						if(toPrint >= loadedGames.size()){
+							System.out.println("There is no board here..");
+							System.out.println("Press 1 to print another board and anything else to cancel");
+							if(!getUserResponse().equals("1"))
+								print = false;
 						}
 						else{
-							GameBoard.printGameBoard(chosenBoard);
+							loadedGames.get(toPrint).printGameBoard(loadedGames.get(toPrint).getBoard());
 							System.out.println("Press 1 to print another board and anything else to cancel");
 							if(!getUserResponse().equals("1"))
 								print = false;
@@ -94,24 +88,26 @@ public class main{
 			}
 			
 			if(options.equals("find")){
-				System.out.println("Enter board to analyze");
+				for(GameBoard board: loadedGames)
+					System.out.print(board.getIdentifer()+"\t");
+				System.out.println("Enter board name to analyze");
 				String gameBoard = getUserResponse();
-				GameBoard chosenBoard = null;
+				GameBoard chosenBoard = new GameBoard();
 				
 				for(GameBoard board: loadedGames){
 					if(board.getIdentifer().equals(gameBoard))
 						chosenBoard = board;
 				}
 				
-				if(chosenBoard == null){
+				if(chosenBoard.getIdentifer()==null){
 					System.out.println("This board has not been loaded");
 				}
 				else{
-					GameBoard.analyzeGameBoard(chosenBoard);
+					chosenBoard.analyzeGameBoard();
 					ArrayList<Path> subWords = GameBoard.possibleWords;
 					int defStart = 0;
 					int defSize = 5;
-					GameBoard.printWords(subWords, defStart, defSize);
+					chosenBoard.printWords(subWords, defStart, defSize);
 				
 					printWordAnalysisMenu();
 					String cont = getUserResponse();
@@ -129,18 +125,18 @@ public class main{
 							int row = Integer.parseInt(getUserResponse());
 				
 							subWords = GameBoard.subWords(subWords,row,column);
-							GameBoard.printWords(subWords, defStart, defSize);
+							chosenBoard.printWords(subWords, defStart, defSize);
 						}
 						if(cont.equals("2")){
 							subWords = GameBoard.possibleWords;
 							defStart = 0;
 							defSize = 5;
-							GameBoard.printWords(subWords, defStart, defSize);
+							chosenBoard.printWords(subWords, defStart, defSize);
 						}
 						if(cont.equals("3")){
 							defStart +=5;
 							defSize +=5;
-							GameBoard.printWords(subWords, defStart, defSize);
+							chosenBoard.printWords(subWords, defStart, defSize);
 						}
 						if(cont.equals("4")){
 							System.out.println("Enter (0-14) to print the respective shown word" +
