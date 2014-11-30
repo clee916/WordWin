@@ -83,10 +83,6 @@ public final class GameBoard{
 				analyzeNeighbors(charPoint,current,used);
 			}
 		}
-		
-		analyzeWordsLength(possibleWords);
-		analyzeWordsReach(possibleWords);
-		analyzeWordsReachMin(possibleWords);
 	}
 	
 	public static void analyzeNeighbors(CharPoint start, String current, 
@@ -121,18 +117,16 @@ public final class GameBoard{
 		}
 	}
 		
-	public static void analyzeWordsLength(List<Path> possibleWords2){	
+	public static void analyzeWordsLength(List<Path> possibleWords2, int start, int maxSize){	
 		
 		System.out.println("\nYour Longest Words....");
 		
 		Collections.sort(possibleWords2, new LengthComparator());
 		
-		int maxSize = 5;
-		
-		if(possibleWords2.size()<5)
+		if(possibleWords2.size()<maxSize)
 			maxSize = possibleWords2.size();
 		
-		for (int index = 0; index < maxSize ; index++){
+		for (int index = start; index < maxSize ; index++){
 			Path path = possibleWords2.get(index);
 			System.out.print(path.getWord());
 			
@@ -143,18 +137,16 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void analyzeWordsReach(List<Path> possibleWords2){
+	public static void analyzeWordsReach(List<Path> possibleWords2, int start, int maxSize){
 		
 		System.out.println("\nYour Tallest Reach...");
 		
 		Collections.sort(possibleWords2, new ReachComparator());
 		
-		int maxSize = 5;
-		
-		if(possibleWords2.size()<5)
+		if(possibleWords2.size()<maxSize)
 			maxSize = possibleWords2.size();
 		
-		for (int index = 0; index < maxSize; index++){
+		for (int index = start; index < maxSize; index++){
 			Path path = possibleWords2.get(index);
 			System.out.print(path.getWord());
 			
@@ -165,18 +157,16 @@ public final class GameBoard{
 		}
 	}
 	
-	public static void analyzeWordsReachMin(List<Path> possibleWords2){
+	public static void analyzeWordsReachMin(List<Path> possibleWords2, int start, int maxSize){
 		
 		System.out.println("\nYour Lowest Reach...");
 		
 		Collections.sort(possibleWords2, new ReachComparatorMin());
 		
-		int maxSize = 5;
-		
-		if(possibleWords2.size()<5)
+		if(possibleWords2.size()<maxSize)
 			maxSize = possibleWords2.size();
 		
-		for (int index = 0; index < maxSize ; index++){
+		for (int index = start; index < maxSize ; index++){
 			Path path = possibleWords2.get(index);
 			System.out.print(path.getWord());
 			
