@@ -22,7 +22,7 @@ public class Dictionary{
 		subWordList = (ArrayList<String>) wordList.clone();
 	}
 	
-	public static void subDictinonary(String start){
+	public static void subDictionary(String start){
 		subWordList.clear();
 		
 		for(String word: wordList)

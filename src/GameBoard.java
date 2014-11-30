@@ -56,16 +56,16 @@ public final class GameBoard{
 	
 	public static void analyzeGameBoard(){
 		String current = null;
-		ArrayList<Point> used = new ArrayList<Point>();
 		possibleWords.clear();
 		
 		for(CharPoint charPoint: ownedChar){
 			
+			ArrayList<Point> used = new ArrayList<Point>();
 			used.add(charPoint.getPoint());
 			current = charPoint.getChar();
 		
 			for(CharPoint neighbor: charPoint.getNeighBors()){	
-				Dictionary.subDictinonary(current.concat(neighbor.getChar()));
+				Dictionary.subDictionary(current.concat(neighbor.getChar()));
 				analyzeNeighbors(charPoint,current,used);
 			}
 		}
