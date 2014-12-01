@@ -76,7 +76,7 @@ public final class Path{
 				if(path.contains(new Point(i,j)))
 					System.out.print(GameBoard.getCharPoint(i,j,gameBoard).getChar());
 				else
-					System.out.print("");
+					System.out.print(".");
 				System.out.print("\t");
 			}
 			System.out.print("\n");
