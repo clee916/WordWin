@@ -27,19 +27,19 @@ public final class GameBoard{
 		
 		if(boardChar.length()!=130){
 			System.out.println(boardChar.length());
-			System.out.println("Board is not formatter correctly for a WordBase game");
+			System.out.println("Board is not formatted correctly for a WordBase game");
 			throw new IOException();
 		}
 		
 		char[] charArray = boardChar.toCharArray();
 		
-		int i = 12;
+		int j = 12;
 		int k = 0;
 		
-		while( i >= 0){
-			int j = 0;
+		while( j >= 0){
+			int i = 0;
 			
-			while(j<10){
+			while(i<10){
 				char character = charArray[k];
 				Point point = new Point(i,j);
 				CharPoint charPoint = new CharPoint(point,Character.toString(character),this);
@@ -48,12 +48,12 @@ public final class GameBoard{
 				if(Character.isUpperCase(character))
 					this.ownedChar.add(charPoint);
 		
-				j++;
+				i++;
 				k++;		
 			}
-			i--;
+			j--;
 		}
-		if(this.ownedChar.get(0).getPoint().equals(new Point(12,0)))
+		if(this.ownedChar.get(0).getPoint().equals(new Point(0,12)))
 			this.bottomBase = false;
 	}
 	
@@ -81,8 +81,8 @@ public final class GameBoard{
 	}
 	
 	public void printGameBoard(ArrayList<CharPoint> gameBoard){
-		for (int i = 12; i >=0; i--){
-			for (int j = 0; j < 10; j++){
+		for (int j = 12; j >=0; j--){
+			for (int i = 0; i < 10; i++){
 				System.out.print(getCharPoint(i,j,gameBoard).getChar());			
 				System.out.print("\t");
 			}
@@ -96,21 +96,18 @@ public final class GameBoard{
 				
 		for(CharPoint charPoint: ownedChar){
 			
-			Dictionary test = new Dictionary(charPoint.getChar(), Dictionary.wordList);
+			Dictionary subDictionary1 = new Dictionary(charPoint.getChar(), Dictionary.wordList);
 			
 			ArrayList<Point> used = new ArrayList<Point>();
 			used.add(charPoint.getPoint());
 			current = charPoint.getChar();
-		
-			for(CharPoint neighbor: charPoint.getNeighBors()){	
-				Dictionary test2 = new Dictionary(current.concat(neighbor.getChar()),test.getWordList());
-				analyzeNeighbors(charPoint,current,used,test2);
-			}
+
+			analyzeNeighbors(charPoint,current,used,subDictionary1);
 		}
 	}
 	
 	public void analyzeNeighbors(CharPoint start, String current, 
-			ArrayList<Point> used, Dictionary test2){
+			ArrayList<Point> used, Dictionary subDictionary){
 		
 		for(CharPoint neighbor: start.getNeighBors()){
 			ArrayList<Point> usedClone = new ArrayList<Point>(used);
@@ -122,7 +119,7 @@ public final class GameBoard{
 			
 			String currentPlus = current.concat(neighbor.getChar());
 			
-			if(!(test2.wordStart(currentPlus,test2.getWordList())))
+			if(!(subDictionary.wordStart(currentPlus,subDictionary.getWordList())))
 				cont = false;
 			
 			if(cont){
@@ -130,11 +127,12 @@ public final class GameBoard{
 				usedClone.add(neighbor.getPoint());
 				path.replaceWord(currentPlus);
 				
-				if(test2.isWord(path.getWord(),test2.getWordList())&&!(possibleWords.contains(path)))
+				if(subDictionary.isWord(path.getWord(),subDictionary.getWordList())&&
+						!(possibleWords.contains(path)))
 					possibleWords.add(path);
 				
-				Dictionary test3 = new Dictionary(currentPlus,test2.getWordList());
-				analyzeNeighbors(neighbor,currentPlus,usedClone,test3);
+				Dictionary subDictionary1 = new Dictionary(currentPlus,subDictionary.getWordList());
+				analyzeNeighbors(neighbor,currentPlus,usedClone,subDictionary1);
 			}
 		}
 	}
@@ -197,55 +195,19 @@ public final class GameBoard{
 		return toReturn;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((identifier == null) ? 0 : identifier.hashCode());
-		result = prime * result
-				+ ((ownedChar == null) ? 0 : ownedChar.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		GameBoard other = (GameBoard) obj;
-		if (identifier == null) {
-			if (other.identifier != null)
-				return false;
-		} else if (!identifier.equals(other.identifier))
-			return false;
-		if (ownedChar == null) {
-			if (other.ownedChar != null)
-				return false;
-		} else if (!ownedChar.equals(other.ownedChar))
-			return false;
-		return true;
-	}
-
 	public void analyzeEntireGameBoard(){
 		String current = null;
 		possibleWords.clear();
 				
 		for(CharPoint charPoint: gameBoard){
 			
-			Dictionary test = new Dictionary(charPoint.getChar(), Dictionary.wordList);
+			Dictionary subDictionary = new Dictionary(charPoint.getChar(), Dictionary.wordList);
 			
 			ArrayList<Point> used = new ArrayList<Point>();
 			used.add(charPoint.getPoint());
 			current = charPoint.getChar();
-		
-			for(CharPoint neighbor: charPoint.getNeighBors()){	
-				Dictionary test2 = new Dictionary(current.concat(neighbor.getChar()),test.getWordList());
-				analyzeNeighbors(charPoint,current,used,test2);
-			}
+			
+			analyzeNeighbors(charPoint,current,used,subDictionary);
 		}
 	}
 	
@@ -281,4 +243,38 @@ public final class GameBoard{
 		}
 		return toReturn;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((identifier == null) ? 0 : identifier.hashCode());
+		result = prime * result
+				+ ((ownedChar == null) ? 0 : ownedChar.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GameBoard other = (GameBoard) obj;
+		if (identifier == null) {
+			if (other.identifier != null)
+				return false;
+		} else if (!identifier.equals(other.identifier))
+			return false;
+		if (ownedChar == null) {
+			if (other.ownedChar != null)
+				return false;
+		} else if (!ownedChar.equals(other.ownedChar))
+			return false;
+		return true;
+	}
+
 }

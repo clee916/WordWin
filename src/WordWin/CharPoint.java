@@ -10,7 +10,6 @@ public final class CharPoint{
 	private GameBoard parent = new GameBoard();
 	
 	public CharPoint(Point point, String character){
-		
 		this.point = point;
 		this.character = character;
 	}
@@ -32,8 +31,8 @@ public final class CharPoint{
 		
 		List<CharPoint> neighbors = new ArrayList<CharPoint>();
 		
-		int i = this.point.getRow();
-		int j = this.point.getCol();
+		int i = this.point.getCol();
+		int j = this.point.getRow();
 		
 			neighbors.add(GameBoard.getCharPoint(i-1, j-1,parent.getBoard()));
 			neighbors.add(GameBoard.getCharPoint(i-1, j,parent.getBoard()));

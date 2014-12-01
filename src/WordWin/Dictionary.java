@@ -23,16 +23,16 @@ public class Dictionary{
 		input.close();
 	}
 	
-	public ArrayList<String> getWordList(){
-		return this.subWordList;
-	}
-	
 	public Dictionary(String start, ArrayList<String> subDictionary){
 	
 		for(String word: subDictionary)
 			if(word.startsWith(start.toLowerCase()))
 				this.subWordList.add(word);
 		
+	}
+	
+	public ArrayList<String> getWordList(){
+		return this.subWordList;
 	}
 	
 	public boolean isWord(String word, ArrayList<String> subDictionary){

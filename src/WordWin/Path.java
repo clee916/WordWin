@@ -70,13 +70,13 @@ public final class Path{
 	}
 	
 	public void showOnBoard(){
-		for (int i = 12; i >=0; i--){
-			for (int j = 0; j < 10; j++){
+		for (int j = 12; j >=0;j--){
+			for (int i = 0; i < 10; i++){
 				
 				if(path.contains(new Point(i,j)))
 					System.out.print(GameBoard.getCharPoint(i,j,gameBoard).getChar());
 				else
-					System.out.print("*");
+					System.out.print("");
 				System.out.print("\t");
 			}
 			System.out.print("\n");

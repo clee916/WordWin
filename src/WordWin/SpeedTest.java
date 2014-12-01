@@ -8,7 +8,7 @@ public class SpeedTest{
 	@Test
 	public void analyzeEntreGameBoardSpeedTest() throws IOException{
 		new Dictionary("bigDictionary.txt");
-		GameBoard gameBoard = new GameBoard("Andy.txt");
+		GameBoard gameBoard = new GameBoard("board.txt");
 		gameBoard.analyzeEntireGameBoard();
 
 	}

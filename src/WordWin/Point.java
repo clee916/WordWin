@@ -1,12 +1,13 @@
 package WordWin;
+
 public final class Point{
 	
-	private int row;
 	private int column;
+	private int row;
 	
 	public Point(int x, int y){
-		this.row = x;
-		this.column = y;
+		this.column = x;
+		this.row = y;
 	}
 	
 	public int getRow(){

@@ -46,6 +46,7 @@ public class Main{
 						"\nAny loaded boards with the same name will be replaced.");
 				String fileName = scan.next().toLowerCase()+".txt";
 				try {
+					System.out.println();
 					GameBoard gameBoard = new GameBoard(fileName);
 					if(!loadedGames.contains(gameBoard)){	
 						int index = 0;
@@ -54,6 +55,7 @@ public class Main{
 								loadedGames.remove(loadedGames.get(index));
 								System.out.print("Original loaded board has been replaced!\nNew Board ");
 							}
+							index++;
 						}
 						loadedGames.add(gameBoard);
 						System.out.println("Successfully Loaded!");
@@ -153,7 +155,7 @@ public class Main{
 								System.out.println("Enter row of position(y-value)");
 								int row = Integer.parseInt(scan.next());
 					
-								subWords = GameBoard.subWords(subWords,row,column);
+								subWords = GameBoard.subWords(subWords,column,row);
 								chosenBoard.printWords(subWords, defStart, defSize);
 							}
 							if(cont.equals("2")){
