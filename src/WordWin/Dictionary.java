@@ -1,8 +1,6 @@
 package WordWin;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.io.*;
 
 public class Dictionary{

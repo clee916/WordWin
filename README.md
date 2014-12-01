@@ -7,10 +7,12 @@ Generates potential playable words for user in MobileApp: WordBase given a text 
 
 ##Formatting the board
 + Type the board out in a text file starting from the top left corner.
-+ Capitalize the letters that you "possess"
-+ Multiples lines / white spaces are ok
++ Capitalize the letters that you "possess".
++ Multiples lines / white spaces are all right.
++ Standard WordBase Game has 13 rows/10 columns = 130 characters (non white space)
++ Text file should be in same directory as jar-file
 
-Sample text files has been includeded
+Sample text files has been included
 
 ##Possible Functions
 

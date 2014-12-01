@@ -1,12 +1,8 @@
 package WordWin;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Scanner;
 
 import Comparators.LengthComparator;
@@ -19,8 +15,9 @@ import Comparators.ReachComparatorMin;
  * Generates potential playable words for user in MobileApp: WordBase
  */
 
-public class main{
-	public static void main(String args[]){
+public class Main{
+	
+	public static void main(String[] args){
 		
 		try {
 			new Dictionary("bigDictionary.txt");
@@ -28,7 +25,8 @@ public class main{
 		} catch (IOException e1) {
 			System.out.println("Dictionary file not present, program will not work");
 		}
-	
+		
+		Scanner scan = new Scanner(System.in);
 		ArrayList<GameBoard> loadedGames = new ArrayList<GameBoard>();
 
 		System.out.println("\nHello, welcome to WordWin, a cheat for WordBase, that geneartes all " +
@@ -37,21 +35,28 @@ public class main{
 		String options;
 		
 		printMainMenu();
-		options = getUserResponse();
+		options = scan.next().toLowerCase();
 		
 		while(!options.equals("quit")){
 			
 			if(options.equals("load")){
 				
-				System.out.println("\nEnter the file name of the board without the extension" +
-						"\nEnsure that the board is formatted properly according to the ReadMe" +
-						"\nIf you have editted a loaded board, please rename it");
-				String fileName = getUserResponse()+".txt";
+				System.out.println("\nEnter the file name of the board without the extension." +
+						"\nEnsure that the board is formatted properly according to the README." +
+						"\nAny loaded boards with the same name will be replaced.");
+				String fileName = scan.next().toLowerCase()+".txt";
 				try {
 					GameBoard gameBoard = new GameBoard(fileName);
-					if(!loadedGames.contains(gameBoard)){
+					if(!loadedGames.contains(gameBoard)){	
+						int index = 0;
+						while(index<loadedGames.size()){
+							if(loadedGames.get(index).getIdentifer().equals(fileName.replaceAll(".txt", ""))){
+								loadedGames.remove(loadedGames.get(index));
+								System.out.print("Original loaded board has been replaced!\nNew Board ");
+							}
+						}
 						loadedGames.add(gameBoard);
-						System.out.println("Successfully loaded!");
+						System.out.println("Successfully Loaded!");
 					}else
 						System.out.println("This board has already been loaded!");
 				} catch (IOException e) {
@@ -59,23 +64,24 @@ public class main{
 				}
 				
 				printMainMenu();
-				options = getUserResponse();
+				options = scan.next().toLowerCase();
 			}
 			
 			if(options.equals("print")){
 				
 				boolean print = true;
 				
-				System.out.print("\nLoaded Games: ");
-				for(GameBoard board: loadedGames)
-					System.out.print(board.getIdentifer()+"  ");
-				
 				if(loadedGames.isEmpty())
 					System.out.print("You have no loaded boards!\n");
 				else{
 					while(print){
+						
+						System.out.print("\nLoaded Games: ");
+						for(GameBoard board: loadedGames)
+							System.out.print(board.getIdentifer()+"  ");
+						
 						System.out.println("\nEnter board name to print");
-						String gameBoard = getUserResponse();
+						String gameBoard = scan.next().toLowerCase();
 						GameBoard chosenBoard = new GameBoard();
 						
 						for(GameBoard board: loadedGames){
@@ -86,32 +92,34 @@ public class main{
 						if(chosenBoard.getIdentifer()==null){
 							System.out.println("This board has not been loaded");
 							System.out.println("Press 1 to print another board and anything else to cancel");
-							if(!getUserResponse().equals("1"))
+							if(!scan.next().toLowerCase().equals("1"))
 								print = false;
 						}
 						else{
 							chosenBoard.printGameBoard(chosenBoard.getBoard());
 							System.out.println("Press 1 to print another board and anything else to cancel");
-							if(!getUserResponse().equals("1"))
+							if(!scan.next().toLowerCase().equals("1"))
 								print = false;
 						}
 					}
 				}
 				printMainMenu();
-				options = getUserResponse();
+				options = scan.next().toLowerCase();
 			}
 			
 			if(options.equals("find")){
-				System.out.print("\nLoaded Games: ");
-				for(GameBoard board: loadedGames)
-					System.out.print(board.getIdentifer()+"  ");
 				
 				if(loadedGames.isEmpty()){
 					System.out.print("You have no loaded boards!\n");
 				}
 				else{
+					
+					System.out.print("\nLoaded Games: ");
+					for(GameBoard board: loadedGames)
+						System.out.print(board.getIdentifer()+"  ");
+					
 					System.out.println("\nEnter board name to analyze");
-					String gameBoard = getUserResponse();
+					String gameBoard = scan.next().toLowerCase();
 					GameBoard chosenBoard = new GameBoard();
 					
 					for(GameBoard board: loadedGames){
@@ -131,7 +139,7 @@ public class main{
 						chosenBoard.printWords(subWords, defStart, defSize);
 					
 						printWordAnalysisMenu();
-						String cont = getUserResponse();
+						String cont = scan.next().toLowerCase();
 					
 						while(cont.equals("1")||cont.equals("2")||cont.equals("3")||cont.equals("4")){
 							
@@ -140,10 +148,10 @@ public class main{
 								defSize = 5;
 				
 								System.out.println("Enter column of position(x-value)");
-								int column = Integer.parseInt(getUserResponse());
+								int column = Integer.parseInt(scan.next());
 							
 								System.out.println("Enter row of position(y-value)");
-								int row = Integer.parseInt(getUserResponse());
+								int row = Integer.parseInt(scan.next());
 					
 								subWords = GameBoard.subWords(subWords,row,column);
 								chosenBoard.printWords(subWords, defStart, defSize);
@@ -162,7 +170,7 @@ public class main{
 							if(cont.equals("4")){
 								System.out.println("Enter (0-9) to print the respective shown word (0 is top)" +
 										" and anything else to cancel");
-								int toPrint = Integer.parseInt(getUserResponse());
+								int toPrint = Integer.parseInt(scan.next());
 								
 								if(toPrint>=0&&toPrint<5){
 									Collections.sort(subWords, new LengthComparator());
@@ -180,12 +188,12 @@ public class main{
 								}
 							}
 							printWordAnalysisMenu();
-							cont = getUserResponse();	
+							cont = scan.next().toLowerCase();	
 						}		
 					}
 				}
 				printMainMenu();
-				options = getUserResponse();
+				options = scan.next().toLowerCase();
 			}	
 			
 			if(options.equals("win")){
@@ -198,7 +206,7 @@ public class main{
 				}
 				else{
 					System.out.println("\nEnter board name to find win condition");
-					String gameBoard = getUserResponse();
+					String gameBoard = scan.next().toLowerCase();
 					GameBoard chosenBoard = new GameBoard();
 					
 					for(GameBoard board: loadedGames){
@@ -225,38 +233,34 @@ public class main{
 								}
 							}
 						}
-						System.out.println("\nWinnning moves printed in random order");
+						System.out.println("\nWinnning moves has been printed");
 					}
 				}
 				printMainMenu();
-				options = getUserResponse();
+				options = scan.next().toLowerCase();
 			}
 			if(!options.equals("load")&&!options.equals("print")&&!options.equals("find")
 					&&!options.equals("quit")&&!options.equals("win")){
 				
 				System.out.println("Not a valid input");
 				printMainMenu();
-				options = getUserResponse();
+				options = scan.next().toLowerCase();
 			}
 		}
+		scan.close();
 		System.out.println("\nGood Bye! Thanks for using! :)");
 	}
-	
-	public static String getUserResponse(){
-		Scanner scan = new Scanner(System.in);
-		return scan.next();
-	}
-	
+
 	public static void printMainMenu(){
-		System.out.println("\nType load, to load a gameboard.\nType print, to view existing loaded gameboards" +
-				"\nType find, to find possible words on an existing gameboard" +
-				"\nType win, to show moves that can win in two moves\nType quit to exit");
+		System.out.println("\nType load to load a gameboard.\nType print to view existing loaded gameboards." +
+				"\nType find to find possible words on an existing gameboard." +
+				"\nType win to show moves that will win in the next two moves.\nType quit to exit.");
 	}
 	
 	public static void printWordAnalysisMenu(){
 		
-		System.out.println("\nPress 1 to search for a specific point \nPress 2 to show original words " +
-				"\nPress 3 to show the next 5 words\nPress 4 to show a word on screen" +
-				"\nPress anything else to exit");
+		System.out.println("\nPress 1 to search for a specific point out of these words." +
+				" \nPress 2 to show original words.\nPress 3 to show the next 5 words." +
+				"\nPress 4 to show a word on screen.\nPress anything else to exit.");
 	}
 }

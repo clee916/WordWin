@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import Comparators.LengthComparator;
 import Comparators.ReachComparator;
@@ -94,7 +93,6 @@ public final class GameBoard{
 	public void analyzeGameBoard(){
 		String current = null;
 		possibleWords.clear();
-		
 				
 		for(CharPoint charPoint: ownedChar){
 			
@@ -115,7 +113,7 @@ public final class GameBoard{
 			ArrayList<Point> used, Dictionary test2){
 		
 		for(CharPoint neighbor: start.getNeighBors()){
-			ArrayList<Point> usedClone = (ArrayList<Point>) used.clone();
+			ArrayList<Point> usedClone = new ArrayList<Point>(used);
 			Path path = new Path(current,usedClone,gameBoard);
 			boolean cont = true;
 		
@@ -205,6 +203,8 @@ public final class GameBoard{
 		int result = 1;
 		result = prime * result
 				+ ((identifier == null) ? 0 : identifier.hashCode());
+		result = prime * result
+				+ ((ownedChar == null) ? 0 : ownedChar.hashCode());
 		return result;
 	}
 
@@ -222,9 +222,14 @@ public final class GameBoard{
 				return false;
 		} else if (!identifier.equals(other.identifier))
 			return false;
+		if (ownedChar == null) {
+			if (other.ownedChar != null)
+				return false;
+		} else if (!ownedChar.equals(other.ownedChar))
+			return false;
 		return true;
 	}
-	
+
 	public void analyzeEntireGameBoard(){
 		String current = null;
 		possibleWords.clear();
@@ -276,6 +281,4 @@ public final class GameBoard{
 		}
 		return toReturn;
 	}
-	
-	
 }
