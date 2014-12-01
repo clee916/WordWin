@@ -1,3 +1,4 @@
+package WordWin;
 public final class Point{
 	
 	private int row;

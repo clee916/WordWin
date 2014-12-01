@@ -1,3 +1,7 @@
+package Comparators;
+
+import WordWin.Path;
+
 public class ReachComparatorMin implements java.util.Comparator<Path> {
 
     public int compare(Path p1, Path p2) {

@@ -1,3 +1,4 @@
+package WordWin;
 import java.awt.List;
 import java.util.ArrayList;
 
@@ -47,6 +48,25 @@ public final class Path{
 				min = point.getRow();
 		}
 		return min;
+	}
+	
+	public boolean hasRow(int row){
+		
+		for(Point point: path){
+			if(point.getRow()==row)
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean hasPoint(int row, int column){
+		
+		for(Point point:path){
+			if(point.getRow()==row&&point.getCol()==column)
+				return true;
+		}
+		
+		return false;
 	}
 	
 	public void showOnBoard(){

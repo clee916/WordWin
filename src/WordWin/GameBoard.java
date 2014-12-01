@@ -1,3 +1,5 @@
+package WordWin;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -5,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import Comparators.LengthComparator;
+import Comparators.ReachComparator;
+import Comparators.ReachComparatorMin;
 
 public final class GameBoard{
 	
@@ -99,7 +105,6 @@ public final class GameBoard{
 			current = charPoint.getChar();
 		
 			for(CharPoint neighbor: charPoint.getNeighBors()){	
-				//Dictionary.subDictionary(current.concat(neighbor.getChar()));
 				Dictionary test2 = new Dictionary(current.concat(neighbor.getChar()),test.getWordList());
 				analyzeNeighbors(charPoint,current,used,test2);
 			}
@@ -194,9 +199,6 @@ public final class GameBoard{
 		return toReturn;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -206,9 +208,6 @@ public final class GameBoard{
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -225,4 +224,58 @@ public final class GameBoard{
 			return false;
 		return true;
 	}
+	
+	public void analyzeEntireGameBoard(){
+		String current = null;
+		possibleWords.clear();
+				
+		for(CharPoint charPoint: gameBoard){
+			
+			Dictionary test = new Dictionary(charPoint.getChar(), Dictionary.wordList);
+			
+			ArrayList<Point> used = new ArrayList<Point>();
+			used.add(charPoint.getPoint());
+			current = charPoint.getChar();
+		
+			for(CharPoint neighbor: charPoint.getNeighBors()){	
+				Dictionary test2 = new Dictionary(current.concat(neighbor.getChar()),test.getWordList());
+				analyzeNeighbors(charPoint,current,used,test2);
+			}
+		}
+	}
+	
+	public ArrayList<Path> userPlayableWords(ArrayList<Path> possibleWords){
+		ArrayList<Path> toReturn = new ArrayList<Path>();
+		
+		ArrayList<Point> validStartPos = new ArrayList<Point>();
+		
+		for(CharPoint hi: ownedChar){
+			validStartPos.add(hi.getPoint());
+		}
+		
+		for(Path path: possibleWords){
+			if(validStartPos.contains(path.getPath().get(0)))
+				toReturn.add(path);
+		}
+		return toReturn;
+	}
+	
+	public ArrayList<Path> winNext(ArrayList<Path> possibleWords){
+		ArrayList<Path> toReturn = new ArrayList<Path>();
+		
+		if(bottomBase){
+			for(Path path: possibleWords){
+				if(path.hasRow(12))
+					toReturn.add(path);
+			}
+		}else{
+			for(Path path: possibleWords){
+				if(path.hasRow(0))
+					toReturn.add(path);
+			}
+		}
+		return toReturn;
+	}
+	
+	
 }

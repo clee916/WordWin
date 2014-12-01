@@ -1,3 +1,4 @@
+package WordWin;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,6 +8,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+
+import Comparators.LengthComparator;
+import Comparators.ReachComparator;
+import Comparators.ReachComparatorMin;
 
 /**
  * Author: Cornell Lee
@@ -19,14 +24,14 @@ public class main{
 		
 		try {
 			new Dictionary("bigDictionary.txt");
-			System.out.println("Dictionary successfully loaded!");
+			System.out.println("\nDictionary successfully loaded!");
 		} catch (IOException e1) {
 			System.out.println("Dictionary file not present, program will not work");
 		}
 	
 		ArrayList<GameBoard> loadedGames = new ArrayList<GameBoard>();
 
-		System.out.println("Hello, welcome to WordWin, a cheat for WordBase, that geneartes all " +
+		System.out.println("\nHello, welcome to WordWin, a cheat for WordBase, that geneartes all " +
 				"possible playable words for you in WordBase. \nTo get started, load a board");
 		
 		String options;
@@ -182,8 +187,52 @@ public class main{
 				printMainMenu();
 				options = getUserResponse();
 			}	
+			
+			if(options.equals("win")){
+				System.out.print("\nLoaded Games: ");
+				for(GameBoard board: loadedGames)
+					System.out.print(board.getIdentifer()+"  ");
+				
+				if(loadedGames.isEmpty()){
+					System.out.print("You have no loaded boards!\n");
+				}
+				else{
+					System.out.println("\nEnter board name to find win condition");
+					String gameBoard = getUserResponse();
+					GameBoard chosenBoard = new GameBoard();
+					
+					for(GameBoard board: loadedGames){
+						if(board.getIdentifer().equals(gameBoard))
+							chosenBoard = board;
+					}
+					
+					if(chosenBoard.getIdentifer()==null){
+						System.out.println("This board has not been loaded");
+						
+					}
+					else{
+						chosenBoard.analyzeEntireGameBoard();
+						ArrayList<Path> playableWords = chosenBoard.userPlayableWords(GameBoard.possibleWords);
+						ArrayList<Path> winnableWords = chosenBoard.winNext(GameBoard.possibleWords);
+						
+						for(Path path: winnableWords){
+							Point winPoint = path.getPath().get(0);
+							for(Path path2: playableWords){
+								if(path2.hasPoint(winPoint.getRow(), winPoint.getCol())){
+									System.out.println();
+									System.out.println(path2.toString());
+									System.out.println(path.toString());
+								}
+							}
+						}
+						System.out.println("\nWinnning moves printed in random order");
+					}
+				}
+				printMainMenu();
+				options = getUserResponse();
+			}
 			if(!options.equals("load")&&!options.equals("print")&&!options.equals("find")
-					&&!options.equals("quit")){
+					&&!options.equals("quit")&&!options.equals("win")){
 				
 				System.out.println("Not a valid input");
 				printMainMenu();
@@ -200,7 +249,8 @@ public class main{
 	
 	public static void printMainMenu(){
 		System.out.println("\nType load, to load a gameboard.\nType print, to view existing loaded gameboards" +
-				"\nType find, to find possible words on an existing gameboard\nType quit to exit");
+				"\nType find, to find possible words on an existing gameboard" +
+				"\nType win, to show moves that can win in two moves\nType quit to exit");
 	}
 	
 	public static void printWordAnalysisMenu(){
