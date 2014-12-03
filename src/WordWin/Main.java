@@ -175,16 +175,19 @@ public class Main{
 								
 								if(toPrint>=0&&toPrint<5){
 									Collections.sort(subWords, new LengthComparator());
-									subWords.get(defStart+toPrint).showOnBoard();
+									if(defStart+toPrint<subWords.size())
+										subWords.get(defStart+toPrint).showOnBoard();
 								}
 								if(toPrint>4&&toPrint<10){
 			
 									if(chosenBoard.isBottom()){
 										Collections.sort(subWords, new ReachComparator());
-										subWords.get(defStart+toPrint-5).showOnBoard();
+										if(defStart+toPrint-5<subWords.size())
+											subWords.get(defStart+toPrint-5).showOnBoard();
 									}else{
 										Collections.sort(subWords, new ReachComparatorMin());
-										subWords.get(defStart+toPrint-5).showOnBoard();
+										if(defStart+toPrint-5<subWords.size())
+											subWords.get(defStart+toPrint-5).showOnBoard();
 									}
 								}
 							}
@@ -229,6 +232,9 @@ public class Main{
 						String answer = scan.next().toLowerCase();
 						while(!(answer.equals("menu")))
 						{
+							if(answer.equals("long"))
+								chosenBoard.printWord(chosenBoard.getWords(), 0, 10, new LengthComparator());
+							
 							if(answer.equals("opponent")){
 								Comparator<Path> comp;
 								int defStart = 0;
@@ -284,7 +290,8 @@ public class Main{
 								}
 								answer = "user";
 							}
-							if(!answer.equals("opponent")&&!answer.equals("user")&&!answer.equals("menu"))
+							if(!answer.equals("opponent")&&!answer.equals("user")&&!answer.equals("menu")
+									&&!answer.equals("long"))
 								System.out.println("\nInvalid Response");
 							
 							printInDepthAnalysisMenu();
@@ -318,7 +325,8 @@ public class Main{
 	}
 	
 	public static void printInDepthAnalysisMenu(){
-		System.out.println("\nPress opponent to see winning words your opponent can play." +
+		System.out.println("\nPress long to see the longest playable word on this game board" +
+				"\nPress opponent to see winning words your opponent can play." +
 				"\nPress user to see winning words that you can play" +
 				"\nPress menu to return to the main menu");
 	}
