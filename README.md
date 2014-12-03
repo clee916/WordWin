@@ -24,6 +24,7 @@ Sample text files has been included
 + `win`:	conducts in depth analysis on the entire board.
 
 ####In Depth Analysis
++ `long`: Show the longest words that can be made on the given board.
 + `opponent`: Show words / all starting positions of words that opponent can play as a winning move.
 + `user`: Show words / all starting positions of words that user can play as a winning move. Can also show current playable words of user that will lead to a winning move the succeeding turn.
 
