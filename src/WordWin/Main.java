@@ -193,8 +193,6 @@ public class Main{
 						}		
 					}
 				}
-				printMainMenu();
-				options = scan.next().toLowerCase();
 			}	
 			
 			if(options.equals("win")){
