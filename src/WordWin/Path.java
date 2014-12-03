@@ -13,7 +13,11 @@ public final class Path{
 		this.path = path;
 		this.gameBoard = gameBoard;
 	}
-	
+
+	public Path(GameBoard gameBoard) {
+		this.gameBoard = gameBoard.getBoard();
+	}
+
 	public String getWord(){
 		return this.word;
 	}
@@ -113,7 +117,4 @@ public final class Path{
 		
 		return false;
 	}
-	
-	
-	
 }

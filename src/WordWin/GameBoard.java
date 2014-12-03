@@ -14,10 +14,10 @@ import Comparators.ReachComparatorMin;
 public final class GameBoard{
 	
 	private String identifier = null;
+	private boolean bottomBase = true;
 	private ArrayList<CharPoint> gameBoard = new ArrayList<CharPoint>();
 	private ArrayList<CharPoint> ownedChar = new ArrayList<CharPoint>();
-	private boolean bottomBase = true;
-	public static ArrayList<Path> possibleWords = new ArrayList<Path>();
+	private ArrayList<Path> possibleWords = new ArrayList<Path>();
 	
 	public GameBoard(){}
 	
@@ -69,6 +69,10 @@ public final class GameBoard{
 		return this.bottomBase;
 	}
 	
+	public ArrayList<Path> getWords(){
+		return this.possibleWords;
+	}
+	
 	public static CharPoint getCharPoint(int i, int j, ArrayList<CharPoint> gameBoard){
 		Point toFind = new Point(i,j);
 		
@@ -91,9 +95,9 @@ public final class GameBoard{
 	}
 	
 	public void analyzeGameBoard(){
-		String current = null;
 		possibleWords.clear();
-				
+		String current = null;
+
 		for(CharPoint charPoint: ownedChar){
 			
 			Dictionary subDictionary1 = new Dictionary(charPoint.getChar(), Dictionary.wordList);
@@ -184,7 +188,7 @@ public final class GameBoard{
 		return toReturn.replaceAll("\\s", "");
 	}
 	
-	public final static ArrayList<Path> subWords(ArrayList<Path> moreWords, int row, int column){
+	public ArrayList<Path> subWords(ArrayList<Path> moreWords, int row, int column){
 		
 		ArrayList<Path> toReturn = new ArrayList<Path>();
 		
@@ -196,9 +200,9 @@ public final class GameBoard{
 	}
 
 	public void analyzeEntireGameBoard(){
-		String current = null;
 		possibleWords.clear();
-				
+		String current = null;
+		
 		for(CharPoint charPoint: gameBoard){
 			
 			Dictionary subDictionary = new Dictionary(charPoint.getChar(), Dictionary.wordList);
@@ -227,10 +231,10 @@ public final class GameBoard{
 		return toReturn;
 	}
 	
-	public ArrayList<Path> winNext(ArrayList<Path> possibleWords){
+	public ArrayList<Path> winningWords(ArrayList<Path> possibleWords,boolean botBase){
 		ArrayList<Path> toReturn = new ArrayList<Path>();
 		
-		if(bottomBase){
+		if(botBase){
 			for(Path path: possibleWords){
 				if(path.hasRow(12))
 					toReturn.add(path);
