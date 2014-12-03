@@ -14,4 +14,9 @@ public class StartDepthComparator implements java.util.Comparator<Path> {
 
         return p1.getWord().compareTo(p2.getWord());
     }
+    
+    @Override
+    public String toString(){
+    	return "(Opponent's) Winning";
+    }
 }
