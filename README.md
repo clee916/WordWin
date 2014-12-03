@@ -18,9 +18,17 @@ Sample text files has been included
 
 ##Possible Functions
 
-+ Load: 	load multiple gameboards.
-+ Print: 	print loaded gameboards on screen.
-+ Find: 	find all playable words from a loaded gameboards, sorted by length + vertical reach. It can also display the word on screen, and search for words containing a specific position.
-+ Win:	Shows all two-word combinations of a loaded gameboard that will allow you to win.
++ `load`: 	load multiple gameboards.
++ `print`: 	print loaded gameboards on screen.
++ `find`: 	find all playable words from a loaded gameboards, sorted by length + vertical reach, can display the word on screen, and search for words containing a specific/multiple position.
++ `win`:	conducts in depth analysis on the entire board.
 
-Code is messy, will comment/clean later on + improve UI
+####In Depth Analysis
++ `opponent`: Show words / all starting positions of words that opponent can play as a winning move.
++ `user`: Show words / all starting positions of words that user can play as a winning move. Can also show current playable words of user that will lead to a winning move the succeeding turn.
+
+**TODO's**
+
++ Comment/clean code as its quite messy
++ Improve UI
++ Give user greater control of words seen in In Depth Analysis
